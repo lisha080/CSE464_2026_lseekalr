@@ -68,4 +68,27 @@ public class Graph {
         }
         edges.add(new String[]{srcLabel, dstLabel});
     }
+
+    //feature 4
+    public void outputDOTGraph(String path) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("digraph {\n");
+        for (String[] edge : edges)
+            sb.append(edge[0]).append(" -> ").append(edge[1]).append(";\n");
+        sb.append("}");
+
+        Files.write(Paths.get(path), sb.toString().getBytes());
+    }
+
+    public void outputGraphics(String path, String format) throws Exception {
+        outputDOTGraph("temp.dot");
+        ProcessBuilder pb = new ProcessBuilder(
+                "dot",
+                "-T" + format,
+                "temp.dot",
+                "-o",
+                path
+        );
+        pb.start().waitFor();
+    }
 }
