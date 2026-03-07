@@ -56,4 +56,16 @@ public class Graph {
         for (String label : labels)
             nodes.add(label);
     }
+
+    //feature 3
+    public void addEdge(String srcLabel, String dstLabel) {
+        nodes.add(srcLabel);
+        nodes.add(dstLabel);
+
+        for (String[] edge : edges) {
+            if (edge[0].equals(srcLabel) && edge[1].equals(dstLabel))
+                return;
+        }
+        edges.add(new String[]{srcLabel, dstLabel});
+    }
 }

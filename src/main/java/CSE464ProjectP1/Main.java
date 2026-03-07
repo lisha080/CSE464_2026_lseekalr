@@ -14,5 +14,10 @@ public class Main {
         //feature 2
         graph.addNode("x");
         graph.addNodes(new String[]{"y","z"});
+
+        //feature 3
+        graph.addEdge("x","a");
+        graph.addEdge("a","b");
+
     }
 }
