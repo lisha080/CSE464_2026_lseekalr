@@ -14,13 +14,16 @@ public class Main {
         //feature 2
         graph.addNode("x");
         graph.addNodes(new String[]{"y","z"});
+        System.out.println(graph);
 
         //feature 3
         graph.addEdge("x","a");
         graph.addEdge("a","b");
+        System.out.println(graph);
 
         //feature 4
         graph.outputDOTGraph("output.dot");
         graph.outputGraphics("output.png","png");
+        System.out.println(graph);
     }
 }
