@@ -9,6 +9,7 @@ public class Graph {
     private Set<String> nodes = new LinkedHashSet<>();
     private List<String[]> edges = new ArrayList<>();
 
+    //feature 1
     public void parseGraph(String filepath) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(filepath));
 
@@ -28,7 +29,6 @@ public class Graph {
             }
         }
     }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -46,5 +46,14 @@ public class Graph {
         }
 
         return sb.toString();
+    }
+
+    //feature 2
+    public void addNode(String label) {
+        nodes.add(label);
+    }
+    public void addNodes(String[] labels) {
+        for (String label : labels)
+            nodes.add(label);
     }
 }
