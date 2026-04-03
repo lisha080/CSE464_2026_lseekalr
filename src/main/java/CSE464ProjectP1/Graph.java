@@ -118,8 +118,20 @@ public class Graph {
         }
     }
 
-    //feature 8
-    public Path graphSearch(String src, String dst) {
+    public enum Algorithm {
+        BFS,
+        DFS
+    }
+
+    public Path graphSearch(String src, String dst, Algorithm algo) {
+        if (algo == Algorithm.BFS) {
+            return bfsSearch(src, dst);
+        } else {
+            return dfsSearch(src, dst);
+        }
+    }
+
+    private Path bfsSearch(String src, String dst) {
         if (!nodes.contains(src) || !nodes.contains(dst)) return null;
 
         Queue<List<String>> queue = new LinkedList<>();
@@ -132,9 +144,7 @@ public class Graph {
             List<String> path = queue.poll();
             String last = path.get(path.size() - 1);
 
-            if (last.equals(dst)) {
-                return new Path(path);
-            }
+            if (last.equals(dst)) return new Path(path);
 
             for (String[] edge : edges) {
                 if (edge[0].equals(last) && !visited.contains(edge[1])) {
@@ -149,5 +159,28 @@ public class Graph {
         return null;
     }
 
+    private Path dfsSearch(String src, String dst) {
+        Set<String> visited = new HashSet<>();
+        List<String> path = new ArrayList<>();
+
+        if (dfsHelper(src, dst, visited, path)) return new Path(path);
+        return null;
+    }
+
+    private boolean dfsHelper(String current, String dst, Set<String> visited, List<String> path) {
+        visited.add(current);
+        path.add(current);
+
+        if (current.equals(dst)) return true;
+
+        for (String[] edge : edges) {
+            if (edge[0].equals(current) && !visited.contains(edge[1])) {
+                if (dfsHelper(edge[1], dst, visited, path)) return true;
+            }
+        }
+
+        path.remove(path.size() - 1);
+        return false;
+    }
 
 }
