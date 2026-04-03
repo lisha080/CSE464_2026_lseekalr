@@ -92,19 +92,43 @@ public class Graph {
         pb.start().waitFor();
     }
 
-    //feature 5
+    //feature 5 fixed
     public void removeNode(String label) {
         if (!nodes.contains(label)) {
             throw new IllegalArgumentException();
         }
+
         nodes.remove(label);
-        edges.removeIf(edge -> edge[0].equals(label) || edge[1].equals(label));
+
+        Iterator<String[]> it = edges.iterator();
+        while (it.hasNext()) {
+            String[] edge = it.next();
+            if (edge[0].equals(label) || edge[1].equals(label)) {
+                it.remove();
+            }
+        }
     }
 
     //feature 6
     public void removeNodes(String[] labels) {
         for (String label : labels) {
-            removeNode(label);
+            if (!nodes.contains(label)) {
+                throw new IllegalArgumentException();
+            }
+        }
+
+        for (String label : labels) {
+            nodes.remove(label);
+        }
+
+        Set<String> removeSet = new HashSet<>(Arrays.asList(labels));
+
+        Iterator<String[]> it = edges.iterator();
+        while (it.hasNext()) {
+            String[] edge = it.next();
+            if (removeSet.contains(edge[0]) || removeSet.contains(edge[1])) {
+                it.remove();
+            }
         }
     }
 
