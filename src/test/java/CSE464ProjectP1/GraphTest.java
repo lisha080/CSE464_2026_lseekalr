@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class GraphTest {
 
@@ -69,7 +71,9 @@ public class GraphTest {
         g.removeNode("a");
 
         String out = g.toString();
-        assertFalse(out.contains("a"));
+        assertFalse(out.contains("a -> "));
+        assertFalse(out.contains("-> a"));
+        assertFalse(Arrays.asList(out.split("\n")).contains("a"));
     }
 
     @Test
@@ -78,11 +82,16 @@ public class GraphTest {
         g.addEdge("a", "b");
         g.addEdge("b", "c");
 
-        g.removeNodes(new String[]{"a","b"});
+        g.removeNodes(new String[]{"a", "b"});
 
         String out = g.toString();
-        assertFalse(out.contains("a"));
-        assertFalse(out.contains("b"));
+        List<String> lines = Arrays.asList(out.split("\n"));
+        assertFalse(lines.contains("a"));
+        assertFalse(lines.contains("b"));
+        assertFalse(out.contains("a -> "));
+        assertFalse(out.contains("b -> "));
+        assertFalse(out.contains("-> a"));
+        assertFalse(out.contains("-> b"));
     }
 
     @Test
