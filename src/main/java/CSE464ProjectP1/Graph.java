@@ -118,4 +118,31 @@ public class Graph {
         }
     }
 
+    public Path graphSearch(String src, String dst) {
+        Set<String> visited = new HashSet<>();
+        List<String> path = new ArrayList<>();
+
+        if (dfs(src, dst, visited, path)) {
+            return new Path(path);
+        }
+        return null;
+    }
+
+    private boolean dfs(String current, String dst, Set<String> visited, List<String> path) {
+        visited.add(current);
+        path.add(current);
+
+        if (current.equals(dst)) return true;
+
+        for (String[] edge : edges) {
+            if (edge[0].equals(current) && !visited.contains(edge[1])) {
+                if (dfs(edge[1], dst, visited, path)) return true;
+            }
+        }
+
+        path.remove(path.size() - 1);
+        return false;
+    }
+
+
 }
