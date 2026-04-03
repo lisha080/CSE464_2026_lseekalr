@@ -91,4 +91,31 @@ public class Graph {
         );
         pb.start().waitFor();
     }
+
+    //feature 5
+    public void removeNode(String label) {
+        if (!nodes.contains(label)) {
+            throw new IllegalArgumentException();
+        }
+        nodes.remove(label);
+        edges.removeIf(edge -> edge[0].equals(label) || edge[1].equals(label));
+    }
+
+    //feature 6
+    public void removeNodes(String[] labels) {
+        for (String label : labels) {
+            removeNode(label);
+        }
+    }
+
+    //feature 7
+    public void removeEdge(String srcLabel, String dstLabel) {
+        boolean removed = edges.removeIf(edge ->
+                edge[0].equals(srcLabel) && edge[1].equals(dstLabel)
+        );
+        if (!removed) {
+            throw new IllegalArgumentException();
+        }
+    }
+
 }
