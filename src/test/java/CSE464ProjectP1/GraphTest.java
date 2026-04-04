@@ -48,7 +48,6 @@ public class GraphTest {
         String output = graph.toString();
         assertTrue(output.contains("x -> y"));
     }
-
     @Test
     void testOutputDOTGraph() throws Exception {
 
