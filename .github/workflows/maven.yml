@@ -19,8 +19,5 @@ jobs:
           java-version: '18'
           distribution: 'temurin'
 
-      - name: Install Graphviz
-        run: sudo apt-get install -y Graphviz
-
       - name: Build with Maven
         run: mvn -B package
