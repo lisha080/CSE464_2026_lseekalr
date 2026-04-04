@@ -48,6 +48,19 @@ public class GraphTest {
         String output = graph.toString();
         assertTrue(output.contains("x -> y"));
     }
+
+    @Test
+    void testOutputGraphics() throws Exception {
+        Graph graph = new Graph();
+        graph.addEdge("a", "b");
+        graph.outputGraphics("test_output.png", "png");
+
+        // Verify the PNG file was created and is non-empty
+        java.io.File file = new java.io.File("test_output.png");
+        assertTrue(file.exists());
+        assertTrue(file.length() > 0);
+    }
+
     @Test
     void testOutputDOTGraph() throws Exception {
 
