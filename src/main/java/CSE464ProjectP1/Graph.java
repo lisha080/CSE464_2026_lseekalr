@@ -105,13 +105,9 @@ public class Graph {
     }
 
     //feature 5 fixed
-    public void removeNode(String label) {
-        if (!nodes.contains(label)) {
-            throw new IllegalArgumentException();
-        }
-
-        nodes.remove(label);
-
+    //refactor 4 Extract Method edge removal method made separate 
+    
+    private void removeEdgesContaining(String label) {
         Iterator<String[]> it = edges.iterator();
         while (it.hasNext()) {
             String[] edge = it.next();
@@ -119,6 +115,14 @@ public class Graph {
                 it.remove();
             }
         }
+    }
+
+    public void removeNode(String label) {
+        if (!nodes.contains(label)) {
+            throw new IllegalArgumentException();
+        }
+        nodes.remove(label);
+        removeEdgesContaining(label);
     }
 
     //feature 6
