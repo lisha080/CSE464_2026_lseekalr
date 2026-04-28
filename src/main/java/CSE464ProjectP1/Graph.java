@@ -165,13 +165,16 @@ public class Graph {
 
     public enum Algorithm {
         BFS,
-        DFS
+        DFS,
+        RANDOM
     }
 
     public Path graphSearch(String src, String dst, Algorithm algo) {
         SearchStrategy searcher;
         if (algo == Algorithm.BFS) {
             searcher = new BFSSearch();
+        } else if (algo == Algorithm.RANDOM) {
+            searcher = new RandomWalkSearch();
         } else {
             searcher = new DFSSearch();
         }

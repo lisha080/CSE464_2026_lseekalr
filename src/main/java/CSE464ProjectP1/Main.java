@@ -53,10 +53,28 @@ public class Main {
         graph2.parseGraph("input.dot");
         Path bfsPath = graph2.graphSearch("a", "h", Graph.Algorithm.BFS);
         System.out.println("BFS path from a to h: " + bfsPath);
+        System.out.println();
 
         // Feature 9 - DFS search
         System.out.println("=== Feature 9: DFS Graph Search ===");
         Path dfsPath = graph2.graphSearch("a", "h", Graph.Algorithm.DFS);
         System.out.println("DFS path from a to h: " + dfsPath);
+        System.out.println();
+
+        // Feature 10 - Random Walk Search
+        System.out.println("=== Feature 10: Random Walk Search ===");
+        Graph graph3 = new Graph();
+        graph3.parseGraph("input.dot");
+
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Random Walk #" + (i + 1));
+            Path randomPath = graph3.graphSearch("a", "c", Graph.Algorithm.RANDOM);
+            if (randomPath != null) {
+                System.out.println("Success: " + randomPath);
+            } else {
+                System.out.println("Failed: no path found");
+            }
+            System.out.println();
+        }
     }
 }
