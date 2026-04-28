@@ -169,12 +169,12 @@ public class Graph {
     }
 
     public Path graphSearch(String src, String dst, Algorithm algo) {
-        GraphSearchTemplate searcher;
-            if (algo == Algorithm.BFS) {
-                searcher = new BFSSearch();
-            } else {
-                searcher = new DFSSearch();
-            }
+        SearchStrategy searcher;
+        if (algo == Algorithm.BFS) {
+            searcher = new BFSSearch();
+        } else {
+            searcher = new DFSSearch();
+        }
         return searcher.search(src, dst, nodes, edges);
     }
 

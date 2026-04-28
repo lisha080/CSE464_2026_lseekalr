@@ -2,13 +2,13 @@ package CSE464ProjectP1;
 
 import java.util.*;
 
-public class DFSSearch extends GraphSearchTemplate {
+public class DFSSearch extends GraphSearchTemplate implements SearchStrategy {
 
     @Override
     protected Path executeSearch(String src, String dst, List<String[]> edges) {
         Set<String> visited = new HashSet<>();
         List<String> path = new ArrayList<>();
-        
+
         if (dfsRecursive(src, dst, visited, path, edges)) return new Path(path);
         return null;
     }

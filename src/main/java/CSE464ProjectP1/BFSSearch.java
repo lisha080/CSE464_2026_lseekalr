@@ -2,7 +2,7 @@ package CSE464ProjectP1;
 
 import java.util.*;
 
-public class BFSSearch extends GraphSearchTemplate {
+public class BFSSearch extends GraphSearchTemplate implements SearchStrategy {
 
     @Override
     protected Path executeSearch(String src, String dst, List<String[]> edges) {
