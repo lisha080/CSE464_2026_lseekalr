@@ -186,12 +186,14 @@ public class Graph {
     private Path dfsSearch(String src, String dst) {
         Set<String> visited = new HashSet<>();
         List<String> path = new ArrayList<>();
-
-        if (dfsHelper(src, dst, visited, path)) return new Path(path);
+        
+        //refactor 1: dfsHelper to dfsRecursive
+        if (dfsRecursive(src, dst, visited, path)) return new Path(path);
         return null;
     }
 
-    private boolean dfsHelper(String current, String dst, Set<String> visited, List<String> path) {
+    
+    private boolean dfsRecursive(String current, String dst, Set<String> visited, List<String> path) {
         visited.add(current);
         path.add(current);
 
