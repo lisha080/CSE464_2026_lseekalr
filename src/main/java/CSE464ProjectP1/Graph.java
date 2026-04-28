@@ -58,15 +58,22 @@ public class Graph {
     }
 
     //feature 3
+
+    //refactor 2: add method edgeExists so the method addEdge is more clearly defined
+    private boolean edgeExists(String srcLabel, String dstLabel) {
+        for (String[] edge : edges) {
+            if (edge[0].equals(srcLabel) && edge[1].equals(dstLabel))
+                return true;
+        }
+        return false;
+    }
+
     public void addEdge(String srcLabel, String dstLabel) {
         nodes.add(srcLabel);
         nodes.add(dstLabel);
 
-        for (String[] edge : edges) {
-            if (edge[0].equals(srcLabel) && edge[1].equals(dstLabel))
-                return;
-        }
-        edges.add(new String[]{srcLabel, dstLabel});
+        if (!edgeExists(srcLabel, dstLabel))
+            edges.add(new String[]{srcLabel, dstLabel});
     }
 
     //feature 4
@@ -186,7 +193,7 @@ public class Graph {
     private Path dfsSearch(String src, String dst) {
         Set<String> visited = new HashSet<>();
         List<String> path = new ArrayList<>();
-        
+
         //refactor 1: dfsHelper to dfsRecursive
         if (dfsRecursive(src, dst, visited, path)) return new Path(path);
         return null;
@@ -201,7 +208,7 @@ public class Graph {
 
         for (String[] edge : edges) {
             if (edge[0].equals(current) && !visited.contains(edge[1])) {
-                if (dfsHelper(edge[1], dst, visited, path)) return true;
+                if (dfsRecursive(edge[1], dst, visited, path)) return true;
             }
         }
 
