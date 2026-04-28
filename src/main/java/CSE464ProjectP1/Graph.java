@@ -32,14 +32,19 @@ public class Graph {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        
+        //refactor 3: making variable names more understandable
 
-        sb.append("Number of nodes: ").append(nodes.size()).append("\n");
+        int nodeCount = nodes.size();
+        int edgeCount = edges.size();
+
+        sb.append("Number of nodes: ").append(nodeCount).append("\n");
         sb.append("Node labels:\n");
         for (String node : nodes) {
             sb.append(node).append("\n");
         }
 
-        sb.append("Number of edges: ").append(edges.size()).append("\n");
+        sb.append("Number of edges: ").append(edgeCount).append("\n");
         sb.append("Edges:\n");
         for (String[] edge : edges) {
             sb.append(edge[0]).append(" -> ").append(edge[1]).append("\n");
