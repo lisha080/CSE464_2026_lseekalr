@@ -32,14 +32,19 @@ public class Graph {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        
+        //refactor 3: making variable names more understandable
 
-        sb.append("Number of nodes: ").append(nodes.size()).append("\n");
+        int nodeCount = nodes.size();
+        int edgeCount = edges.size();
+
+        sb.append("Number of nodes: ").append(nodeCount).append("\n");
         sb.append("Node labels:\n");
         for (String node : nodes) {
             sb.append(node).append("\n");
         }
 
-        sb.append("Number of edges: ").append(edges.size()).append("\n");
+        sb.append("Number of edges: ").append(edgeCount).append("\n");
         sb.append("Edges:\n");
         for (String[] edge : edges) {
             sb.append(edge[0]).append(" -> ").append(edge[1]).append("\n");
@@ -58,15 +63,22 @@ public class Graph {
     }
 
     //feature 3
+
+    //refactor 2: add method edgeExists so the method addEdge is more clearly defined
+    private boolean edgeExists(String srcLabel, String dstLabel) {
+        for (String[] edge : edges) {
+            if (edge[0].equals(srcLabel) && edge[1].equals(dstLabel))
+                return true;
+        }
+        return false;
+    }
+
     public void addEdge(String srcLabel, String dstLabel) {
         nodes.add(srcLabel);
         nodes.add(dstLabel);
 
-        for (String[] edge : edges) {
-            if (edge[0].equals(srcLabel) && edge[1].equals(dstLabel))
-                return;
-        }
-        edges.add(new String[]{srcLabel, dstLabel});
+        if (!edgeExists(srcLabel, dstLabel))
+            edges.add(new String[]{srcLabel, dstLabel});
     }
 
     //feature 4
@@ -93,13 +105,9 @@ public class Graph {
     }
 
     //feature 5 fixed
-    public void removeNode(String label) {
-        if (!nodes.contains(label)) {
-            throw new IllegalArgumentException();
-        }
+    //refactor 4 Extract Method edge removal method made separate 
 
-        nodes.remove(label);
-
+    private void removeEdgesContaining(String label) {
         Iterator<String[]> it = edges.iterator();
         while (it.hasNext()) {
             String[] edge = it.next();
@@ -109,14 +117,27 @@ public class Graph {
         }
     }
 
+    public void removeNode(String label) {
+        if (!nodes.contains(label)) {
+            throw new IllegalArgumentException();
+        }
+        nodes.remove(label);
+        removeEdgesContaining(label);
+    }
+
     //feature 6
-    public void removeNodes(String[] labels) {
+    //refactor 5: Extract method to get the node checking functionality separate from the node remove method
+
+    private void checkIfNodesExist(String[] labels) {
         for (String label : labels) {
             if (!nodes.contains(label)) {
                 throw new IllegalArgumentException();
             }
         }
+    }
 
+    public void removeNodes(String[] labels) {
+        checkIfNodesExist(labels);
         for (String label : labels) {
             nodes.remove(label);
         }
@@ -144,67 +165,20 @@ public class Graph {
 
     public enum Algorithm {
         BFS,
-        DFS
+        DFS,
+        RANDOM
     }
 
     public Path graphSearch(String src, String dst, Algorithm algo) {
+        SearchStrategy searcher;
         if (algo == Algorithm.BFS) {
-            return bfsSearch(src, dst);
+            searcher = new BFSSearch();
+        } else if (algo == Algorithm.RANDOM) {
+            searcher = new RandomWalkSearch();
         } else {
-            return dfsSearch(src, dst);
+            searcher = new DFSSearch();
         }
-    }
-
-    private Path bfsSearch(String src, String dst) {
-        if (!nodes.contains(src) || !nodes.contains(dst)) return null;
-
-        Queue<List<String>> queue = new LinkedList<>();
-        Set<String> visited = new HashSet<>();
-
-        queue.add(Arrays.asList(src));
-        visited.add(src);
-
-        while (!queue.isEmpty()) {
-            List<String> path = queue.poll();
-            String last = path.get(path.size() - 1);
-
-            if (last.equals(dst)) return new Path(path);
-
-            for (String[] edge : edges) {
-                if (edge[0].equals(last) && !visited.contains(edge[1])) {
-                    visited.add(edge[1]);
-                    List<String> newPath = new ArrayList<>(path);
-                    newPath.add(edge[1]);
-                    queue.add(newPath);
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private Path dfsSearch(String src, String dst) {
-        Set<String> visited = new HashSet<>();
-        List<String> path = new ArrayList<>();
-
-        if (dfsHelper(src, dst, visited, path)) return new Path(path);
-        return null;
-    }
-
-    private boolean dfsHelper(String current, String dst, Set<String> visited, List<String> path) {
-        visited.add(current);
-        path.add(current);
-
-        if (current.equals(dst)) return true;
-
-        for (String[] edge : edges) {
-            if (edge[0].equals(current) && !visited.contains(edge[1])) {
-                if (dfsHelper(edge[1], dst, visited, path)) return true;
-            }
-        }
-
-        path.remove(path.size() - 1);
-        return false;
+        return searcher.search(src, dst, nodes, edges);
     }
 
 }
