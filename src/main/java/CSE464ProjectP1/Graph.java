@@ -169,14 +169,17 @@ public class Graph {
         RANDOM
     }
 
+    //addressing comment 3 and 5
     public Path graphSearch(String src, String dst, Algorithm algo) {
         SearchStrategy searcher;
         if (algo == Algorithm.BFS) {
             searcher = new BFSSearch();
+        } else if (algo == Algorithm.DFS) {
+            searcher = new DFSSearch();
         } else if (algo == Algorithm.RANDOM) {
             searcher = new RandomWalkSearch();
         } else {
-            searcher = new DFSSearch();
+            throw new IllegalArgumentException("Unknown algorithm: " + algo);
         }
         return searcher.search(src, dst, nodes, edges);
     }

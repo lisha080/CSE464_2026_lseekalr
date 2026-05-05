@@ -1,11 +1,17 @@
 package CSE464ProjectP1;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 public class GraphTest {
 
@@ -127,6 +133,43 @@ public class GraphTest {
         Graph g = new Graph();
         g.addEdge("a","b");
         assertThrows(IllegalArgumentException.class, () -> g.removeEdge("b","c"));
+    }
+
+    //addressing comment 1
+
+    @Test
+        void testBFSSearch() throws Exception {
+        Graph g = new Graph();
+        g.parseGraph("input.dot");
+        Path p = g.graphSearch("a", "h", Graph.Algorithm.BFS);
+        assertNotNull(p);
+        assertTrue(p.toString().startsWith("a"));
+        assertTrue(p.toString().endsWith("h"));
+    }
+
+    @Test
+    void testDFSSearch() throws Exception {
+        Graph g = new Graph();
+        g.parseGraph("input.dot");
+        Path p = g.graphSearch("a", "h", Graph.Algorithm.DFS);
+        assertNotNull(p);
+        assertTrue(p.toString().startsWith("a"));
+        assertTrue(p.toString().endsWith("h"));
+    }
+
+    @Test
+    void testRandomWalkSearch() throws Exception {
+        Graph g = new Graph();
+        g.parseGraph("input.dot");
+        boolean foundPath = false;
+        for (int i = 0; i < 20; i++) {
+            Path p = g.graphSearch("a", "c", Graph.Algorithm.RANDOM);
+            if (p != null) {
+                foundPath = true;
+                break;
+            }
+        }
+        assertTrue(foundPath);
     }
 
 }
