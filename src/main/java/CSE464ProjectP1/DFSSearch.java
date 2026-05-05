@@ -13,9 +13,11 @@ public class DFSSearch extends GraphSearchTemplate implements SearchStrategy {
         return null;
     }
 
+    //refactor 1 dfsHelper changed to dfsRecursive
     private boolean dfsRecursive(String current, String dst, Set<String> visited, List<String> path, List<String[]> edges) {
         visited.add(current);
         path.add(current);
+        System.out.println("visiting " + new Path(path));
 
         if (current.equals(dst)) return true;
 

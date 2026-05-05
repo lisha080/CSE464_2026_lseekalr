@@ -68,7 +68,7 @@ public class Main {
 
         for (int i = 0; i < 5; i++) {
             System.out.println("Random Walk #" + (i + 1));
-            Path randomPath = graph3.graphSearch("a", "c", Graph.Algorithm.RANDOM);
+            Path randomPath = graph3.graphSearch("a", "h", Graph.Algorithm.RANDOM);
             if (randomPath != null) {
                 System.out.println("Success: " + randomPath);
             } else {

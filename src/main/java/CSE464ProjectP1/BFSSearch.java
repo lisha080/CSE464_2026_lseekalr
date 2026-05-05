@@ -15,6 +15,7 @@ public class BFSSearch extends GraphSearchTemplate implements SearchStrategy {
         while (!queue.isEmpty()) {
             List<String> path = queue.poll();
             String last = path.get(path.size() - 1);
+            System.out.println("visiting " + new Path(path));
 
             if (last.equals(dst)) return new Path(path);
 
